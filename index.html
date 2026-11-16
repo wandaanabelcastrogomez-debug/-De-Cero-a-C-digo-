@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Cero a Código · Aprende JavaScript jugando</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="marca">
+    <div class="logo">🌱</div>
+    <div>
+      <h1>De Cero a Código</h1>
+      <p>Aprende JavaScript de verdad, jugando</p>
+    </div>
+  </div>
+
+  <nav class="progreso" id="progreso" aria-label="Niveles"></nav>
+
+  <div class="cabecera-acciones">
+    <button class="btn-icono" id="btnAyuda" title="Ayuda y comandos">?</button>
+  </div>
+</header>
+
+<main class="tablero">
+
+  <!-- ============ COLUMNA 1: MISIÓN ============ -->
+  <section class="panel mision">
+    <p class="etiqueta" id="nivelNum">Nivel 1 de 9</p>
+    <h2 id="misionTitulo">Tu primer código</h2>
+    <p class="concepto" id="misionConcepto">Funciones y orden</p>
+    <p class="mision-texto" id="misionTexto"></p>
+
+    <div class="objetivo-caja">
+      <div class="objetivo-titulo">
+        <span>Objetivo</span>
+        <strong id="contadorFlores">0 / 0 flores</strong>
+      </div>
+      <ul class="lista-objetivos" id="listaObjetivos"></ul>
+    </div>
+
+    <div class="pistas-caja">
+      <div class="pistas-cab">
+        <span>💡 Pistas</span>
+        <span class="pistas-usadas" id="pistasUsadas">0 / 3</span>
+      </div>
+      <div id="pistasLista" class="pistas-lista"></div>
+      <button class="btn btn-pista" id="btnPista">Dame una pista</button>
+      <button class="btn btn-solucion" id="btnSolucion">🧪 Ver la solución</button>
+    </div>
+  </section>
+
+  <!-- ============ COLUMNA 2: JARDÍN ============ -->
+  <section class="panel jardin-panel">
+    <div class="jardin-marco">
+      <div class="jardin" id="jardin"></div>
+      <div class="brillo" id="brillo"></div>
+    </div>
+    <div class="jardin-pie">
+      <button class="btn btn-mini" id="btnReiniciar">↺ Reiniciar jardín</button>
+      <label class="velocidad">
+        Velocidad
+        <select id="velocidad">
+          <option value="520">🐢 Lenta</option>
+          <option value="320" selected>🐇 Normal</option>
+          <option value="140">⚡ Rápida</option>
+        </select>
+      </label>
+    </div>
+    <p class="leyenda">
+      <span>🤖 Robi</span><span>🌸 flor</span><span>⭕ casilla marcada</span><span>🪨 roca</span>
+    </p>
+  </section>
+
+  <!-- ============ COLUMNA 3: EDITOR ============ -->
+  <section class="panel editor-panel">
+    <div class="editor-cab">
+      <span class="punto rojo"></span><span class="punto amarillo"></span><span class="punto verde"></span>
+      <span class="archivo">script.js</span>
+      <button class="btn btn-ejecutar" id="btnEjecutar">▶ Ejecutar</button>
+    </div>
+
+    <div class="editor-caja">
+      <div class="gutter" id="gutter">1</div>
+      <textarea id="editor" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off"
+        aria-label="Editor de código"></textarea>
+    </div>
+
+    <div class="consola-cab">
+      <span>Consola</span>
+      <span class="atajo">Ctrl + Enter para ejecutar</span>
+    </div>
+    <div class="consola" id="consola" aria-live="polite">
+      <p class="consola-vacia">Aquí verás los mensajes y los errores.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ MODAL ÉXITO ============ -->
+<div class="modal" id="modalExito" role="dialog" aria-modal="true" aria-labelledby="exitoTitulo">
+  <div class="modal-caja">
+    <div class="modal-confeti" id="confeti"></div>
+    <div class="estrellas" id="estrellasModal">⭐⭐⭐</div>
+    <h2 id="exitoTitulo">¡Nivel superado!</h2>
+    <p id="exitoTexto">Has plantado todas las flores.</p>
+    <div class="exito-botones">
+      <button class="btn btn-secundario" id="btnRepetir">↺ Repetir</button>
+      <button class="btn btn-primario" id="btnSiguiente">Siguiente nivel →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL AYUDA ============ -->
+<div class="modal" id="modalAyuda" role="dialog" aria-modal="true" aria-labelledby="ayudaTitulo">
+  <div class="modal-caja modal-ancha">
+    <button class="cerrar" id="btnCerrarAyuda" aria-label="Cerrar">✕</button>
+    <h2 id="ayudaTitulo">Cómo se juega</h2>
+    <p class="ayuda-intro">
+      Escribes <strong>JavaScript de verdad</strong> en el editor y pulsas <strong>▶ Ejecutar</strong>.
+      Robi el robot jardinero obedece tus órdenes al instante: cada línea de código es una orden.
+    </p>
+
+    <h3>Los comandos de Robi</h3>
+    <table class="tabla-comandos">
+      <tr><td><code>avanzar()</code></td><td>Mueve a Robi una casilla hacia delante.</td></tr>
+      <tr><td><code>avanzar(3)</code></td><td>Lo mueve 3 casillas de golpe.</td></tr>
+      <tr><td><code>girarDerecha()</code></td><td>Gira a la derecha sin moverse de casilla.</td></tr>
+      <tr><td><code>girarIzquierda()</code></td><td>Gira a la izquierda sin moverse de casilla.</td></tr>
+      <tr><td><code>plantar()</code></td><td>Planta una flor en la casilla donde está Robi.</td></tr>
+      <tr><td><code>faltaFlor()</code></td><td>Pregunta: ¿esta casilla necesita una flor? (sí / no)</td></tr>
+      <tr><td><code>hayRoca()</code></td><td>Pregunta: ¿hay una roca justo delante?</td></tr>
+      <tr><td><code>decir("hola")</code></td><td>Escribe un mensaje en la consola.</td></tr>
+    </table>
+
+    <h3>Lo que aprenderás</h3>
+    <ul class="ayuda-lista">
+      <li><strong>Orden:</strong> el código se lee de arriba a abajo.</li>
+      <li><strong>Funciones:</strong> órdenes con paréntesis, como <code>avanzar()</code>.</li>
+      <li><strong>Bucles:</strong> <code>for (let i = 0; i &lt; 3; i++) { … }</code> repite sin copiar.</li>
+      <li><strong>Variables:</strong> <code>let n = 5;</code> guarda un valor con nombre.</li>
+      <li><strong>Condicionales:</strong> <code>if (faltaFlor()) { … }</code> decide.</li>
+      <li><strong>Listas:</strong> <code>[1, 3, 3]</code> varios valores juntos.</li>
+    </ul>
+
+    <p class="ayuda-nota">
+      🔒 El bucle <code>while</code> está desactivado: si no termina nunca, la página se quedaría
+      congelada. Usa <code>for</code>, que siempre lleva un final.
+    </p>
+    <button class="btn btn-primario" id="btnCerrarAyuda2">¡Entendido!</button>
+  </div>
+</div>
+
+<!-- ============ MODAL SOLUCIÓN ============ -->
+<div class="modal" id="modalSolucion" role="dialog" aria-modal="true" aria-labelledby="solTitulo">
+  <div class="modal-caja modal-ancha">
+    <button class="cerrar" id="btnCerrarSolucion" aria-label="Cerrar">✕</button>
+    <h2 id="solTitulo">La solución, explicada</h2>
+    <pre class="codigo-solucion" id="solucionCodigo"></pre>
+    <p class="solucion-nota" id="solucionNota"></p>
+    <div class="exito-botones">
+      <button class="btn btn-secundario" id="btnCopiarSolucion">📋 Copiar al editor</button>
+      <button class="btn btn-primario" id="btnCerrarSolucion2">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="juego.js"></script>
+</body>
+</html>
